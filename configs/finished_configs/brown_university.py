@@ -1,5 +1,5 @@
 from scraper_module.config import *
-
+import scrapy
 config = SpiderConfig(
     name="brown_university",
     start_url="https://bulletin.brown.edu/",

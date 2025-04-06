@@ -1,4 +1,5 @@
 from scraper_module.config import *
+import scrapy
 
 config = SpiderConfig(
     name="caltech",

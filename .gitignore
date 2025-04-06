@@ -2,3 +2,4 @@ scraper_module
 configs/__pycache__
 .DS_Store\
 data_output/*
+venv
