@@ -3,6 +3,10 @@ import importlib.util
 import os
 from scraper_module.scraper_lib.runner import RunAllEngines
 from scraper_module.scraper_lib.scraper_engine import ScraperEngine
+from scrapy.crawler import CrawlerProcess
+from scrapy.utils.project import get_project_settings
+from scraper_module.scraper_lib.scraper_engine import ScraperEngine
+
 
 def clean_output():
     # Remove any existing JSON output files to start fresh.
@@ -19,14 +23,19 @@ if __name__ == "__main__":
     ]
 
     engines = []
+    process = CrawlerProcess(get_project_settings())
+
+
     for config_file in config_files:
         spec = importlib.util.spec_from_file_location(
             "config", config_file
         )
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        engines.append(ScraperEngine(module.config))
 
-    runner = RunAllEngines(engines=engines)
-    runner.run_all()
-    runner.save_all()
+        engine = ScraperEngine(module.config)
+        print(f"Scheduling: {engine.name}")
+        engine.schedule(process)  # <-- Schedules the spider, does NOT start it
+
+    print("Starting crawl process...")
+    process.start()  # <-- Starts once, after all spiders are queued
