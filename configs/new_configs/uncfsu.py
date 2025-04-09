@@ -1,15 +1,15 @@
 from scraper_module.config import *
 
 config = SpiderConfig(
-    name="lsu",
-    start_url="https://catalog.lsu.edu/content.php?catoid=29&navoid=2740",
+    name="uncfsu",
+    start_url="https://acalog.uncfsu.edu/content.php?catoid=24&navoid=2142",
     use_playwright=False,
     tasks=[
         DynamicFind(
             task_name="dynamic_courses",
             search_space='xpath://a[contains(@href, "preview_course_nopop.php")]',
-            base_url="http://catalog.lsu.edu/ajax/preview_course.php",
-            catoid=29,
+            base_url="https://acalog.uncfsu.edu/ajax/preview_course.php",
+            catoid=24,
             fields={
                 "title": 'xpath://h3//text()join',
                 "description": 'xpath://div[2]/text()join'
